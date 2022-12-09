@@ -26,17 +26,25 @@ function App() {
         setRepos(prev => [...prev, data]);
         setCurrentRepo('')
         return
+      } else {
+        alert('Repositório já está na lista');
       }
 
+    } else {
+      alert('Repositório não encontrado')
     }
-    alert('Repositório não encontrado')
 
   }
 
   const handleRemoveRepo = (id) => {
-    console.log('Removendo registro', id);
+    const repo = repos.find(repo => repo.id === id);
+    if (repo) {
+      const index = repos.indexOf(repo);
 
-    // utilizar filter.
+      setRepos(reposs => {
+        return reposs.splice(index, 1);
+      });
+    }
   }
 
 
@@ -45,7 +53,7 @@ function App() {
       <img src={gitLogo} width={72} height={72} alt="github logo"/>
       <Input value={currentRepo} onChange={(e) => setCurrentRepo(e.target.value)} />
       <Button onClick={handleSearchRepo}/>
-      {repos.map(repo => <ItemRepo handleRemoveRepo={handleRemoveRepo} repo={repo}/>)}
+      {repos.map(repo => <ItemRepo key={repo.id} handleRemoveRepo={handleRemoveRepo} repo={repo}/>)}
     </Container>
   );
 }
